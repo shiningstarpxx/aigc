@@ -1,4 +1,4 @@
-#!/bin/bash
+i#!/bin/bash
 
 # 确保脚本以 root 权限运行
 if [ "$(id -u)" != "0" ]; then
@@ -11,6 +11,14 @@ echo "安装 Conda..."
 curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 sh Miniconda3-latest-MacOSX-x86_64.sh
 rm Miniconda3-latest-MacOSX-x86_64.sh
+
+# 将 Conda 添加到环境变量
+echo "将 Conda 添加到环境变量..."
+CONDA_PATH="$(conda info --base)/bin"
+if [[ ":$PATH:" != *":$CONDA_PATH:"* ]]; then
+    echo "export PATH=\"$CONDA_PATH:\$PATH\"" >> "$HOME/.bashrc"
+    source "$HOME/.bashrc"
+fi
 
 # 2. 创建并激活 Conda 虚拟环境
 echo "创建并激活 Conda 虚拟环境..."
