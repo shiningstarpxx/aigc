@@ -16,9 +16,18 @@ done
 
 # 1. 安装 Conda
 echo "安装 Conda..."
-curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-sh Miniconda3-latest-MacOSX-x86_64.sh
-rm Miniconda3-latest-MacOSX-x86_64.sh
+CONDA_INSTALLER=""
+case "$(uname -s)-$(uname -m)" in
+    Darwin-x86_64) CONDA_INSTALLER="Miniconda3-latest-MacOSX-x86_64.sh" ;;
+    Darwin-arm64) CONDA_INSTALLER="Miniconda3-latest-MacOSX-arm64.sh" ;;
+    *)
+        echo "错误：不支持的操作系统或架构。"
+        exit 1
+        ;;
+esac
+curl -O "https://repo.anaconda.com/miniconda/$CONDA_INSTALLER"
+sh "$CONDA_INSTALLER"
+rm "$CONDA_INSTALLER"
 
 # 将 Conda 添加到环境变量
 echo "将 Conda 添加到环境变量..."
@@ -78,5 +87,4 @@ python "$COMFYUI_DIR/ComfyUI/main.py" &
 echo "请在浏览器中打开 http://127.0.0.1:8188 来使用 ComfyUI。"
 open "http://127.0.0.1:8188"
 
-# 脚本执行完毕
-echo "ComfyUI 安装完成。"
+#
