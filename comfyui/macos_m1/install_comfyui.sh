@@ -6,6 +6,14 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
+# 检查 git 和 curl 是否已安装
+for cmd in git curl; do
+    if ! command -v $cmd &> /dev/null; then
+        echo "错误：$cmd 命令未找到。请确保已安装 $cmd。"
+        exit 1
+    fi
+done
+
 # 1. 安装 Conda
 echo "安装 Conda..."
 curl -O https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
@@ -15,9 +23,14 @@ rm Miniconda3-latest-MacOSX-x86_64.sh
 # 将 Conda 添加到环境变量
 echo "将 Conda 添加到环境变量..."
 CONDA_PATH="$(conda info --base)/bin"
+SHELL_CONFIG_FILE="$HOME/.bashrc"
+if [ "$SHELL" = "/bin/zsh" ] || [ "$SHELL" = "/usr/bin/zsh" ]; then
+    SHELL_CONFIG_FILE="$HOME/.zshrc"
+fi
+
 if [[ ":$PATH:" != *":$CONDA_PATH:"* ]]; then
-    echo "export PATH=\"$CONDA_PATH:\$PATH\"" >> "$HOME/.zshrc"
-    source "$HOME/.zshrc"
+    echo "export PATH=\"$CONDA_PATH:\$PATH\"" >> "$SHELL_CONFIG_FILE"
+    source "$SHELL_CONFIG_FILE"
 fi
 
 # 2. 创建并激活 Conda 虚拟环境
