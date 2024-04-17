@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # 确保脚本以 root 权限运行
-if [ "$(id -u)" != "0" ]; then
-   echo "此脚本需要 root 权限，请使用 sudo 运行。" 1>&2
-   exit 1
-fi
+#if [ "$(id -u)" != "0" ]; then
+#   echo "此脚本需要 root 权限，请使用 sudo 运行。" 1>&2
+#   exit 1
+#fi
 
 # 检查 git 和 curl 是否已安装
 for cmd in git curl; do
@@ -51,6 +51,9 @@ conda activate comfyui_v1
 # 3. 进入 ComfyUI 存放目录
 COMFYUI_DIR="$HOME/comfyui"
 mkdir -p "$COMFYUI_DIR"
+# 更改 ComfyUI 目录的所有者
+echo "更改 ComfyUI 目录的所有者..."
+chown -R "$(whoami)" "$COMFYUI_DIR"
 cd "$COMFYUI_DIR"
 
 # 4. 克隆 ComfyUI 代码库
