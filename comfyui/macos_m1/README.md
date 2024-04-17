@@ -2,6 +2,8 @@
 
 ```bash
 # 因为有minicoda，所以需要有root权限
+# 需要有curl，git等先置命令
+# brew install curl, git
 > sudo bash install_comfyui.sh
 
 # 按照指引一步步操作即可，安装完成后，默认安装目录是
