@@ -59,6 +59,7 @@ img_height = 640
 batch_size = 4
 
 # For every prompt in prompt_list...
+# 理想的工作流不需要下面的调整参数
 for index, prompt in enumerate(prompt_list):
     # Set a random seed
     seed = random.randint(1, 18446744073709551614)
